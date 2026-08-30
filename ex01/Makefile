@@ -1,12 +1,12 @@
-NAME = convert
+NAME = serializer
 CPP = c++
 CPPFLAGS = -Wall -Wextra -Werror -std=c++98
-SRC = main.cpp ScalarConverter.cpp
+SRC = main.cpp Serializer.cpp
 OBJ = $(SRC:.cpp=.o) 
 
 all: $(NAME)
 
-$(NAME): $(OBJ) ScalarConverter.hpp
+$(NAME): $(OBJ) Data.hpp Serializer.hpp
 	$(CPP) $(CPPFLAGS) $(OBJ) -o $(NAME)
 
 %.o: %.cpp
