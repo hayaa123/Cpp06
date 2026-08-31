@@ -1,3 +1,6 @@
+#ifndef DATA_HPP
+# define DATA_HPP
+
 #include <string>
 
 struct Data
@@ -7,3 +10,5 @@ struct Data
     int height;
     int weight;
 };
+
+#endif
