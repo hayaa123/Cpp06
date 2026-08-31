@@ -6,10 +6,12 @@ int main() {
     ClassA a;
     ClassB b;
     ClassC c;
+    Base *bs;
 
     std::cout << "Identify the random generated class:" << std::endl;
-    Base *bs = generate();
+    bs = generate();
     identify(bs);
+    free(bs);
     std::cout << "Identify with references:" << std::endl;
     identify(a);
     identify(b);
