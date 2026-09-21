@@ -18,9 +18,17 @@ ScalarConverter ScalarConverter::operator=(const ScalarConverter &other)
     return (*this);
 }
 
+void ScalarConverter::trim(std::string &s)
+{
+    s.erase(0, s.find_first_not_of(" \t\n\r\f\v"));
+    s.erase(s.find_last_not_of(" \t\n\r\f\v") + 1);
+}
+
 int ScalarConverter::is_char(std::string input)
 {
     if(input.length() == 1 && !is_int(input))
+        return (1);
+    if(input.length() == 1 && (input[0] == '+' || input[0] == '-'))
         return (1);
     return (0);
 }
@@ -28,8 +36,11 @@ int ScalarConverter::is_char(std::string input)
 int ScalarConverter::is_int(std::string input)
 {
     std::string::size_type i = 0;
-
-    if(input[i] == '-')
+    
+    trim(input);
+    if(input.length() == 0)
+        return (0);
+    if(input[i] == '-' || input[i] == '+')
         i++;
     while (i < input.length())
     {
@@ -39,12 +50,16 @@ int ScalarConverter::is_int(std::string input)
     };
     return(1);
 }
+
 int ScalarConverter::is_double(std::string input)
 {
     std::string::size_type i;
 
     i = 0;
-    if(input[i] == '-')
+    trim(input);
+    if(input.length() == 0)
+        return (0);
+    if(input[i] == '-' || input[i] == '+')
         i++;
     while(i < input.length())
     {
@@ -61,8 +76,6 @@ int ScalarConverter::is_double(std::string input)
             break;
         i++;
     }
-    if(input[i] != '\0')
-        return (0);
     return (1); 
 }
 
@@ -71,7 +84,10 @@ int ScalarConverter::is_float(std::string input)
     std::string::size_type i;
 
     i = 0;
-    if(input[i] == '-')
+    trim(input);
+    if(input.length() == 0)
+        return (0);
+    if(input[i] == '-' || input[i] == '+')
         i++;
     while(i < input.length())
     {
@@ -88,21 +104,21 @@ int ScalarConverter::is_float(std::string input)
             break;
         i++;
     }
-    if(input[i] != 'f' || input[i+1] != '\0')
+    if(input[i] != 'f' || input[i] != '\0')
         return (0);
-    return (1); 
+    return (1);
 }
 
 DataType ScalarConverter::getType(std::string input)
 {
+    if(is_char(input))
+        return(Char);
     if(is_int(input))
         return (Integer);
     if(is_float(input))
         return(Float);
     if(is_double(input))
         return (Double);
-    if(is_char(input))
-        return(Char);
     if(
         input.compare("+inff") == 0 || 
         input.compare("-inff") == 0 ||

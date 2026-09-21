@@ -18,6 +18,7 @@ Base *generate(void)
         result = new ClassC();
         break;
     default:
+        result = NULL;
         break;
     }
     return (result);
@@ -37,13 +38,13 @@ void identify(Base& p)
 {
     try
     {
-        dynamic_cast<ClassA&>(p);
+        (void)dynamic_cast<ClassA&>(p);
         std::cout << "A" << std::endl;
     }
     catch(std::exception& e){
         try
         {
-            dynamic_cast<ClassB&>(p);
+            (void)dynamic_cast<ClassB&>(p);
             std::cout << "B" << std::endl;
         }
         catch(const std::exception& e)

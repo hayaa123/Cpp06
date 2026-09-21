@@ -13,13 +13,13 @@ enum DataType{
     Char,
     Double,
     Nan,
-    PInf,
     Inf,
     Other
 };
 
 class ScalarConverter
 {
+
     public:
         ScalarConverter();
         ScalarConverter(const ScalarConverter &other);
@@ -29,6 +29,7 @@ class ScalarConverter
         static int is_int(std::string input);
         static int is_double(std::string input);
         static int is_float(std::string input);
+        static void trim(std::string &s);
         static void convert_char(std::string input);
         static void convert_int(std::string input);
         static void convert_double(std::string input);
