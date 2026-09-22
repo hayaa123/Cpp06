@@ -11,7 +11,7 @@ int main() {
     std::cout << "Identify the random generated class:" << std::endl;
     bs = generate();
     identify(bs);
-    free(bs);
+    delete bs;
     std::cout << "Identify with references:" << std::endl;
     identify(a);
     identify(b);
