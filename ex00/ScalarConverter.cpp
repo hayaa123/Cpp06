@@ -156,16 +156,10 @@ void ScalarConverter::convert_int(std::string input)
     if (iss >> i) {
         if(i > std::numeric_limits<int>::max() || i < std::numeric_limits<int>::min())
         {
-            std::cout << "char: impossible" << std::endl;
-            std::cout << "int: impossible" << std::endl;
-            std::cout << "float: impossible" << std::endl;
-            std::cout << "double: impossible" << std::endl;
+            print_impossible();
             return;
         }
-        if(std::isprint(i))
-            std::cout << "char: '" << static_cast<char> (i) << "'" << std::endl;
-        else 
-            std::cout << "char: " << "Non displayable" << std::endl;
+        print_char(i);
         std::cout << "int: " << i << std::endl;
         std::cout << std::fixed << std::setprecision(1);
         std::cout << "float: " << static_cast<float> (i) <<"f" <<std::endl;
@@ -181,10 +175,12 @@ void ScalarConverter::convert_double(std::string input)
     std::istringstream iss(input);
 
     if (iss >> i) {
-        if(std::isprint(i))
-            std::cout << "char: '" << static_cast<char> (i) << "'" << std::endl;
-        else 
-            std::cout << "char: " <<  "Non displayable" << std::endl;
+        if(i > std::numeric_limits<double>::max() || i < std::numeric_limits<double>::min())
+        {
+            print_impossible();
+            return;
+        }
+        print_char(static_cast<long>(i));
         std::cout << "int: " << static_cast<int>(i) << std::endl;
         std::cout << std::fixed << std::setprecision(1);
         std::cout << "float: " << static_cast<float> (i) <<"f" <<std::endl;
@@ -200,10 +196,12 @@ void ScalarConverter::convert_float(std::string input)
     std::istringstream iss(input);
 
     if (iss >> i) {
-        if(std::isprint(i))
-            std::cout << "char: '" << static_cast<char> (i) << "'" << std::endl;
-        else 
-            std::cout << "char: " << "Non displayable" << std::endl;
+        if(i > std::numeric_limits<float>::max() || i < std::numeric_limits<float>::min())
+        {
+            print_impossible();
+            return;
+        }
+        print_char(static_cast<long>(i));
         std::cout << "int: " << static_cast<int>(i) << std::endl;
         std::cout << std::fixed << std::setprecision(1);
         std::cout << "float: " << static_cast<float> (i) <<"f" <<std::endl;
@@ -236,6 +234,24 @@ void ScalarConverter::convert_inf(std::string input)
         std::cout << "float: -inff" << std::endl;
         std::cout << "double: -inf" << std::endl;
     }
+}
+
+void ScalarConverter::print_char(long i)
+{
+    if(i > 0 && i < 127 && std::isprint(i))
+        std::cout << "char: '" << static_cast<char> (i) << "'" << std::endl;
+    else if (i < 0 || i > 127)
+        std::cout << "char: impossible" << std::endl;
+    else 
+        std::cout << "char: " << "Non displayable" << std::endl;
+}
+
+void ScalarConverter::print_impossible()
+{
+    std::cout << "char: impossible" << std::endl;
+    std::cout << "int: impossible" << std::endl;
+    std::cout << "float: impossible" << std::endl;
+    std::cout << "double: impossible" << std::endl;
 }
 
 void ScalarConverter::convert(std::string input)

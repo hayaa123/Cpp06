@@ -37,6 +37,8 @@ class ScalarConverter
         static void convert_float(std::string input);
         static void convert_nan();
         static void convert_inf(std::string input);
+        static void print_char(long c);
+        static void print_impossible();
         static DataType getType(std::string input);
 
     public:
