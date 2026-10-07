@@ -2,10 +2,12 @@
 # define SCALARCONVERTER_HPP
 
 #include <cctype>
-#include <string>
-#include <sstream>
-#include <iostream>
+#include <cstdlib>
 #include <iomanip>
+#include <iostream>
+#include <limits>
+#include <sstream>
+#include <string>
 
 enum DataType{
     Float,
@@ -19,12 +21,11 @@ enum DataType{
 
 class ScalarConverter
 {
-
-    public:
+    private:
         ScalarConverter();
         ScalarConverter(const ScalarConverter &other);
         ~ScalarConverter();
-        ScalarConverter operator=(const ScalarConverter &other);
+        ScalarConverter &operator=(const ScalarConverter &other);
         static int is_char(std::string input);
         static int is_int(std::string input);
         static int is_double(std::string input);
@@ -37,6 +38,8 @@ class ScalarConverter
         static void convert_nan();
         static void convert_inf(std::string input);
         static DataType getType(std::string input);
+
+    public:
         static void convert(std::string input);
 };
 

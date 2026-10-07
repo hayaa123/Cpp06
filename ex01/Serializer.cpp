@@ -15,7 +15,7 @@ Serializer::~Serializer()
 
 }
 
-Serializer Serializer::operator=(const Serializer &other)
+Serializer &Serializer::operator=(const Serializer &other)
 {
     (void) other;
     return (*this);

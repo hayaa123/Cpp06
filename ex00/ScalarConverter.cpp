@@ -12,7 +12,7 @@ ScalarConverter::~ScalarConverter()
 {
 
 }
-ScalarConverter ScalarConverter::operator=(const ScalarConverter &other)
+ScalarConverter &ScalarConverter::operator=(const ScalarConverter &other)
 {
     (void)other;
     return (*this);
@@ -67,16 +67,18 @@ int ScalarConverter::is_double(std::string input)
             break;
         i++;
     }
-    if(i == 0 || input[i] != '.')
+    if(i == 0 && input[i] != '.')
+    {
         return(0);
+    }
     i++;
     while(i < input.length())
     {
         if(!std::isdigit(input[i]))
-            break;
+            return(0);
         i++;
     }
-    return (1); 
+    return (1);
 }
 
 int ScalarConverter::is_float(std::string input)
@@ -95,7 +97,7 @@ int ScalarConverter::is_float(std::string input)
             break;
         i++;
     }
-    if(i == 0 || input[i] != '.')
+    if(i == 0 && input[i] != '.')
         return(0);
     i++;
     while(i < input.length())
@@ -104,9 +106,9 @@ int ScalarConverter::is_float(std::string input)
             break;
         i++;
     }
-    if(input[i] != 'f' || input[i] != '\0')
-        return (0);
-    return (1);
+    if(input[i] == 'f' && input[i + 1] == '\0')
+        return (1);
+    return (0);
 }
 
 DataType ScalarConverter::getType(std::string input)
@@ -148,10 +150,18 @@ void ScalarConverter::convert_char(std::string input)
 
 void ScalarConverter::convert_int(std::string input)
 {
-    int i;
+    long i;
     std::istringstream iss(input);
 
     if (iss >> i) {
+        if(i > std::numeric_limits<int>::max() || i < std::numeric_limits<int>::min())
+        {
+            std::cout << "char: impossible" << std::endl;
+            std::cout << "int: impossible" << std::endl;
+            std::cout << "float: impossible" << std::endl;
+            std::cout << "double: impossible" << std::endl;
+            return;
+        }
         if(std::isprint(i))
             std::cout << "char: '" << static_cast<char> (i) << "'" << std::endl;
         else 
@@ -230,31 +240,31 @@ void ScalarConverter::convert_inf(std::string input)
 
 void ScalarConverter::convert(std::string input)
 {
-    DataType type;
+        DataType type;
 
-    type = getType(input);
-    switch (type)
-    {
-    case Integer:
-        convert_int(input);
-        break;
-    case Float:
-        convert_float(input);
-        break;
-    case Double:
-        convert_double(input);
-        break;
-    case Char:
-        convert_char(input);
-        break;
-    case Nan:
-        convert_nan();
-        break;
-    case Inf:
-        convert_inf(input);
-        break;
-    default:
-        std::cout << "Not a valid input" << std::endl;
-        break;
-    }
+        type = getType(input);
+        switch (type)
+        {
+        case Integer:
+            convert_int(input);
+            break;
+        case Float:
+            convert_float(input);
+            break;
+        case Double:
+            convert_double(input);
+            break;
+        case Char:
+            convert_char(input);
+            break;
+        case Nan:
+            convert_nan();
+            break;
+        case Inf:
+            convert_inf(input);
+            break;
+        default:
+            std::cout << "Not a valid input" << std::endl;
+            break;
+        }
 }
